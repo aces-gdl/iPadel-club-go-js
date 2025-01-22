@@ -1,7 +1,6 @@
 #GO git ignore
 pictures/*
 __debug_*
-build
 .env
 out
 images/*

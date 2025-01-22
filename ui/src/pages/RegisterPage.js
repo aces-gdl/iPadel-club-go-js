@@ -12,10 +12,6 @@ import {
     InputAdornment,
     Snackbar,
     Alert,
-    Select,
-    MenuItem,
-    FormControl,
-    InputLabel,
     useTheme,
     useMediaQuery,
 } from '@mui/material';
@@ -33,7 +29,6 @@ import {
     IconUsers,
     IconCalendar,
     IconShirt,
-    IconTrophy
 } from '@tabler/icons-react';
 import axios from 'axios';
 
@@ -50,7 +45,6 @@ const validationSchema = Yup.object({
     lastName: Yup.string().required("Los apellidos son requeridos"),
     birthDate: Yup.date().required("La fecha de nacimiento es requerida"),
     clothingSize: Yup.string().required("La talla de ropa es requerida"),
-    playingCategory: Yup.string().required("La categoría de juego es requerida"),
 });
 
 const RegisterPage = () => {
@@ -68,14 +62,13 @@ const RegisterPage = () => {
             lastName: '',
             birthDate: null,
             clothingSize: '',
-            playingCategory: '',
         },
         validationSchema: validationSchema,
         onSubmit: async (values) => {
             try {
                 await axios.post('/v1/auth/register', values);
                 setSnackbar({ open: true, message: 'Registro exitoso. Inicia sesión para continuar.', severity: 'success' });
-                setTimeout(() => navigate('/v1/auth/login'), 1500);
+                setTimeout(() => navigate('/auth/login'), 1500);
             } catch (err) {
                 setSnackbar({ open: true, message: 'Error en el registro. Inténtalo de nuevo.', severity: 'error' });
             }
@@ -215,31 +208,6 @@ const RegisterPage = () => {
                                     ),
                                 }}
                             />
-                            {/* Playing Category Select */}
-                            <FormControl fullWidth margin="normal">
-                                <InputLabel id="playingCategory-label">Categoría de Juego</InputLabel>
-                                <Select
-                                    labelId="playingCategory-label"
-                                    id="playingCategory"
-                                    name="playingCategory"
-                                    value={formik.values.playingCategory}
-                                    onChange={formik.handleChange}
-                                    error={formik.touched.playingCategory && Boolean(formik.errors.playingCategory)}
-                                    startAdornment={
-                                        <InputAdornment position="start">
-                                            <IconTrophy size={isMobile ? 16 : 20} />
-                                        </InputAdornment>
-                                    }
-                                >
-                                    <MenuItem value="Primera">Primera</MenuItem>
-                                    <MenuItem value="Segunda">Segunda</MenuItem>
-                                    <MenuItem value="Tercera">Tercera</MenuItem>
-                                </Select>
-                                {formik.touched.playingCategory && formik.errors.playingCategory && (
-                                    <Typography color="error">{formik.errors.playingCategory}</Typography>
-                                )}
-                            </FormControl>
-                            {/* Submit Button */}
                             <Button 
                                 color="primary" 
                                 variant="contained" 

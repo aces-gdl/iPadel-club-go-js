@@ -19,9 +19,9 @@ func NewRouter() *gin.Engine {
 	ui.AddRoutes(router)
 
 	// Security
-	router.POST("/auth/register", controllers.Signup)
-	router.POST("/auth/login", controllers.Login)
-	router.POST("/auth/logout", controllers.Logout)
+	router.POST("/v1/auth/register", controllers.Signup)
+	router.POST("/v1/auth/login", controllers.Login)
+	router.POST("/v1/auth/logout", controllers.Logout)
 
 	// Rutas para clubes
 	clubRoutes := router.Group("/v1/catalogs/clubs")
@@ -96,6 +96,7 @@ func NewRouter() *gin.Engine {
 		imagesRoutes.POST("/", middleware.RequireAuth, controllers.UploadImage)
 		imagesRoutes.GET("/:id", middleware.RequireAuth, controllers.GetImage)
 		imagesRoutes.GET("/thumb/:id", middleware.RequireAuth, controllers.GetImageThumb)
+		imagesRoutes.GET("/list", middleware.RequireAuth, controllers.ListImages)
 	}
 
 	return router

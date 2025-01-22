@@ -1,0 +1,1 @@
+{"version":3,"file":"static/js/937.7926e35b.chunk.js","mappings":"0JAEA,MAMA,EANgBA,KAEZC,EAAAA,EAAAA,KAAA,OAAAC,SAAK,W","sources":["pages/Ranking.js"],"sourcesContent":["import React from 'react'\n\nconst Ranking = () => {\n  return (\n    <div>Ranking</div>\n  )\n}\n\nexport default Ranking"],"names":["Ranking","_jsx","children"],"sourceRoot":""}

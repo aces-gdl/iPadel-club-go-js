@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkipadelclub=self.webpackChunkipadelclub||[]).push([[937],{9937:(e,l,a)=>{a.r(l),a.d(l,{default:()=>s});a(5043);var c=a(579);const s=()=>(0,c.jsx)("div",{children:"Ranking"})}}]);
+//# sourceMappingURL=937.7926e35b.chunk.js.map

@@ -34,7 +34,7 @@ const LoginPage = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('/auth/login', { phone, password });
+      const response = await axios.post('/v1/auth/login', { phone, password });
       const { data } = response.data;
       localStorage.setItem('user', JSON.stringify(data));
       navigate('/');

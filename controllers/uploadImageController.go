@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"os/exec"
 	"strings"
@@ -97,4 +98,25 @@ func GetImageThumb(c *gin.Context) {
 	c.Request.Header.Set("Content-Type", "image/png")
 
 	c.File(fmt.Sprintf("%s%s-thumb.jpeg", UPLOAD_PATH, id))
+}
+
+func ListImages(c *gin.Context) {
+	files, err := ioutil.ReadDir(UPLOAD_PATH)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Fallo al leer el directorio de imágenes",
+		})
+		return
+	}
+
+	var images []string
+	for _, file := range files {
+		if !file.IsDir() {
+			images = append(images, file.Name())
+		}
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"images": images,
+	})
 }

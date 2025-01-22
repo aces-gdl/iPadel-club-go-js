@@ -19,7 +19,7 @@ const MainLayout = () => {
   const handleLogout = async () => {
     try {
       const response = await axios.post('/auth/logout');
-      localStorage.removeItem('token');
+      localStorage.removeItem('user');
       navigate('/auth/login');
       setSnackbar({ open: true, message: 'Sesión cerrada con exito.', severity: 'Success' });
     } catch (err) {
@@ -51,7 +51,7 @@ const MainLayout = () => {
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
 
-            iPadel Club, Hola :
+            iPadel Club, Hola : {JSON.parse(localStorage.getItem('user')).name} 
           </Typography>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             {menuItems.map((item) => (

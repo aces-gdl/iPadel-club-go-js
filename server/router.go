@@ -4,82 +4,9 @@ import (
 	"ipadel-club/controllers"
 	"ipadel-club/middleware"
 	"ipadel-club/ui"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 )
-
-/*
-curl -i \
--H "Origin: http://localhost:3000" \
--H 'Access-Control-Request-Method: GET' \
--H 'Access-Control-Request-Headers: Content-Type, Authorization' \
--H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzcxNzQwMjAsInN1YiI6MX0.jUW3UQHWzU8DWT9Al774ozjtiYSKnd2szitBH-bc2T8' \
-"https://ipadel-club-be.acesgdl.com/v1/catalogs/clubs"
-
-https://ipadel-club-js-development.up.railway.app
-*/ /*
-func corsMiddleware() gin.HandlerFunc {
-	return func(c *gin.Context) {
-
-		c.Writer.Header().Set("Access-Control-Allow-Origin", "https://ipadel-club-be.acesgdl.com")
-		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With, Origin, Accept, X-Custom-Header, Range")
-		c.Writer.Header().Set("Expose-Headers", "Content-Length, Content-Type, Authorization, X-Requested-With, Origin, Accept, X-Custom-Header, Range")
-
-		if c.Request.Method == "OPTIONS" {
-			c.AbortWithStatus(204)
-			return
-		}
-
-		c.Next()
-	}
-} */
-
-// CORS middleware function definition
-func corsMiddleware() gin.HandlerFunc {
-	// Define allowed origins as a comma-separated string
-	originsString := "http://localhost:3000, https://ipadel-club-js-development.up.railway.app"
-	var allowedOrigins []string
-	if originsString != "" {
-		// Split the originsString into individual origins and store them in allowedOrigins slice
-		allowedOrigins = strings.Split(originsString, ",")
-	}
-
-	// Return the actual middleware handler function
-	return func(c *gin.Context) {
-		// Function to check if a given origin is allowed
-		isOriginAllowed := func(origin string, allowedOrigins []string) bool {
-			for _, allowedOrigin := range allowedOrigins {
-				if origin == allowedOrigin {
-					return true
-				}
-			}
-			return false
-		}
-
-		// Get the Origin header from the request
-		origin := c.Request.Header.Get("Origin")
-
-		// Check if the origin is allowed
-		if isOriginAllowed(origin, allowedOrigins) {
-			// If the origin is allowed, set CORS headers in the response
-			c.Writer.Header().Set("Access-Control-Allow-Origin", origin)
-			c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
-			c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
-			c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
-		}
-
-		// Handle preflight OPTIONS requests by aborting with status 204
-		if c.Request.Method == "OPTIONS" {
-			c.AbortWithStatus(204)
-			return
-		}
-
-		// Call the next handler
-		c.Next()
-	}
-}
 
 func NewRouter() *gin.Engine {
 	router := gin.Default()
@@ -120,7 +47,7 @@ func NewRouter() *gin.Engine {
 	categoryRoutes := router.Group("/v1/catalogs/categories")
 	{
 		categoryRoutes.POST("/", middleware.RequireAuth, controllers.CreateCategory)
-		categoryRoutes.GET("/", controllers.GetAllCategories)
+		categoryRoutes.GET("/", middleware.RequireAuth, controllers.GetAllCategories)
 		categoryRoutes.GET("/:id", middleware.RequireAuth, middleware.RequireAuth, controllers.GetCategory)
 		categoryRoutes.PUT("/:id", middleware.RequireAuth, controllers.UpdateCategory)
 		categoryRoutes.DELETE("/:id", middleware.RequireAuth, controllers.DeleteCategory)

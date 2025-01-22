@@ -73,9 +73,9 @@ const RegisterPage = () => {
         validationSchema: validationSchema,
         onSubmit: async (values) => {
             try {
-                await axios.post('/auth/register', values);
+                await axios.post('/v1/auth/register', values);
                 setSnackbar({ open: true, message: 'Registro exitoso. Inicia sesión para continuar.', severity: 'success' });
-                setTimeout(() => navigate('/auth/login'), 1500);
+                setTimeout(() => navigate('/v1/auth/login'), 1500);
             } catch (err) {
                 setSnackbar({ open: true, message: 'Error en el registro. Inténtalo de nuevo.', severity: 'error' });
             }

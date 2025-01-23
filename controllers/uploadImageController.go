@@ -1,11 +1,13 @@
 package controllers
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"ipadel-club/initializers"
 	"ipadel-club/models"
 	"net/http"
+	"os"
 	"path/filepath"
 	"strings"
 
@@ -16,7 +18,7 @@ import (
 
 var currentImage *imageupload.Image
 
-const UPLOAD_PATH = "./images/"
+const UPLOAD_PATH = "images/"
 
 func UploadImage(c *gin.Context) {
 	fmt.Println("Entro a UploadImage ")
@@ -43,6 +45,14 @@ func UploadImage(c *gin.Context) {
 	if name == "" {
 		c.JSON(http.StatusNotFound, gin.H{
 			"error": "Fallo al leer nombre de imagen...",
+		})
+		return
+	}
+
+	if _, err := os.Stat(UPLOAD_PATH); errors.Is(err, os.ErrNotExist) {
+		// path/to/whatever does not exist
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "path '" + UPLOAD_PATH + "' not found...",
 		})
 		return
 	}

@@ -109,7 +109,6 @@ func NewRouter() *gin.Engine {
 	{
 		imagesRoutes.POST("/", LargeFileUploadMiddleware, middleware.RequireAuth, controllers.UploadImage)
 		imagesRoutes.GET("/:id", middleware.RequireAuth, controllers.GetImage)
-		imagesRoutes.GET("/thumb/:id", middleware.RequireAuth, controllers.GetImageThumb)
 		imagesRoutes.GET("/list", middleware.RequireAuth, controllers.ListImages)
 	}
 

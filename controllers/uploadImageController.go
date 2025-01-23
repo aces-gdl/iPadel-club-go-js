@@ -59,7 +59,11 @@ func UploadImage(c *gin.Context) {
 
 	fileName := fmt.Sprintf("%s-%s-%s%s", id, name, strings.TrimSpace(string(fileNameBytes)), fileType)
 
-	img.Save(UPLOAD_PATH + fileName)
+	result1 := img.Save(UPLOAD_PATH + fileName)
+	if result1 != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Fallo al guardar imagen..." + result1.Error()})
+		return
+	}
 
 	switch name {
 	case "Event":

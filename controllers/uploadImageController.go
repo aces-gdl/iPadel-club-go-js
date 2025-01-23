@@ -22,8 +22,8 @@ func UploadImage(c *gin.Context) {
 	img, err := imageupload.Process(c.Request, "file")
 
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{
-			"error": "Fallo al leer imagen...",
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Fallo al leer imagen..." + err.Error(),
 		})
 		return
 	}

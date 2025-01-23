@@ -44,6 +44,12 @@ const ImageUploadPage = () => {
           },
         });
 
+        if (response.data.ImageName ) {
+          let payload = { 
+            "image_url" : response.data.ImageName
+          }
+          response = axios.put(`/v1/catalogs/events/${values.id}`, payload);
+        }
         setSnackbar({ open: true, message: 'Imagen subida exitosamente' , severity: 'success' });
         formik.resetForm();
         console.log('Response', response.data); 

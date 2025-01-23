@@ -11,12 +11,23 @@ import (
 
 // CreateInscription crea una nueva inscripción
 func CreateInscription(c *gin.Context) {
-	var inscription models.Inscription
-	if err := c.ShouldBindJSON(&inscription); err != nil {
+	type bodyT struct {
+		EventID    uint `"json:event_id"`
+		CategoryID uint `"json:category_id"`
+		PersonID   uint `"json:person1_id"`
+	}
+	var body bodyT
+
+	if err := c.ShouldBindJSON(&body); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	var inscription models.Inscription
 	inscription.InscriptionDate = time.Now()
+	inscription.PersonID = body.PersonID
+	inscription.EventID = body.EventID
+	inscription.CategoryID = body.CategoryID
 
 	result := initializers.DB.Create(&inscription)
 	if result.Error != nil {

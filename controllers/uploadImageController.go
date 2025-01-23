@@ -3,8 +3,11 @@ package controllers
 import (
 	"fmt"
 	"io/ioutil"
+	"ipadel-club/initializers"
+	"ipadel-club/models"
 	"net/http"
 	"os/exec"
+	"path/filepath"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -24,7 +27,9 @@ func UploadImage(c *gin.Context) {
 		})
 		return
 	}
+
 	id := c.Request.FormValue("id")
+	name := c.Request.FormValue("name")
 
 	if id == "" {
 		c.JSON(http.StatusNotFound, gin.H{
@@ -33,7 +38,14 @@ func UploadImage(c *gin.Context) {
 		return
 	}
 
-	fileType := strings.Split(img.ContentType, "/")[1]
+	if name == "" {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "Fallo al leer nombre de imagen...",
+		})
+		return
+	}
+
+	fileType := filepath.Ext(img.Filename)
 
 	fileNameBytes, err := exec.Command("uuidgen").Output()
 	if err != nil {
@@ -43,28 +55,32 @@ func UploadImage(c *gin.Context) {
 		return
 	}
 
-	fileName := fmt.Sprintf("%s.%s", strings.TrimSpace(string(fileNameBytes)), fileType)
-	thumbName := fmt.Sprintf("%s-thumb.%s", strings.TrimSpace(string(fileNameBytes)), fileType)
+	fileName := fmt.Sprintf("%s-%s-%s%s", id, name, strings.TrimSpace(string(fileNameBytes)), fileType)
 
-	regImage, err := imageupload.ThumbnailJPEG(img, 400, 400, 100)
-	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{
-			"error": "Fallo al crear imagen...",
-		})
-		return
+	img.Save(UPLOAD_PATH + fileName)
+
+	switch name {
+	case "Event":
+		var event models.Event
+		results := initializers.DB.Debug().First(&event, id)
+		if results.Error != nil {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Error al buscar evento..."})
+			return
+		}
+		event.ImageURL = fileName
+		initializers.DB.Save(&event)
+	case "Club":
+		var club models.Club
+		results := initializers.DB.Debug().First(&club, id)
+		if results.Error != nil {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Error al buscar club..."})
+			return
+		}
+		club.ImageURL = fileName
+		initializers.DB.Save(&club)
 	}
-	regImage.Save(UPLOAD_PATH + fileName)
 
-	thumb, err := imageupload.ThumbnailJPEG(img, 100, 100, 100)
-	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{
-			"error": "Fallo al crear miniatura de imagen...",
-		})
-		return
-	}
-	thumb.Save(UPLOAD_PATH + thumbName)
-
-	c.JSON(http.StatusOK, gin.H{"ImageName": fileName, "ThumbName": thumbName})
+	c.JSON(http.StatusOK, gin.H{"ImageName": fileName})
 }
 
 func GetImage(c *gin.Context) {
@@ -78,12 +94,9 @@ func GetImage(c *gin.Context) {
 	}
 
 	c.Request.Header.Set("Content-Type", "image/png")
-	if c.Request.FormValue("thumb") != "" {
-		c.File(fmt.Sprintf("%s%s-thumb.png", UPLOAD_PATH, id))
 
-	} else {
-		c.File(fmt.Sprintf("%s%s.jpeg", UPLOAD_PATH, id))
-	}
+	c.File(fmt.Sprintf("%s%s", UPLOAD_PATH, id))
+
 }
 func GetImageThumb(c *gin.Context) {
 	id := c.Param("id")

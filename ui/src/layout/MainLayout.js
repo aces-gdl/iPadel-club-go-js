@@ -42,6 +42,7 @@ const MainLayout = () => {
     { label: 'Mi Cuenta', action: () => navigate('/update-password') },
     { label: 'Imagenes', action: () => navigate('/upload-image') },
     { label: 'Cerrar Sesión', action: handleLogout },
+
   ];
 
 

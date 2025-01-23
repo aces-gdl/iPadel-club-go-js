@@ -1,15 +1,29 @@
 package server
 
 import (
+	"fmt"
 	"ipadel-club/controllers"
 	"ipadel-club/middleware"
 	"ipadel-club/ui"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
+func LargeFileUploadMiddleware(c *gin.Context) {
+	if c.Request.ContentLength > 1<<20 {
+		fmt.Println("Archivo demasiado grande, máximo 50 MiB")
+	}
+
+	c.Request.Body = http.MaxBytesReader(c.Writer, c.Request.Body, 50<<20) // 50 MiB
+	c.Next()
+
+}
+
 func NewRouter() *gin.Engine {
 	router := gin.Default()
+
+	router.MaxMultipartMemory = 25 << 20 // 10 MiB
 
 	router.ForwardedByClientIP = true
 	router.SetTrustedProxies([]string{"127.0.0.1"})
@@ -93,7 +107,7 @@ func NewRouter() *gin.Engine {
 	// Rutas para equipos
 	imagesRoutes := router.Group("/v1/images")
 	{
-		imagesRoutes.POST("/", middleware.RequireAuth, controllers.UploadImage)
+		imagesRoutes.POST("/", LargeFileUploadMiddleware, middleware.RequireAuth, controllers.UploadImage)
 		imagesRoutes.GET("/:id", middleware.RequireAuth, controllers.GetImage)
 		imagesRoutes.GET("/thumb/:id", middleware.RequireAuth, controllers.GetImageThumb)
 		imagesRoutes.GET("/list", middleware.RequireAuth, controllers.ListImages)

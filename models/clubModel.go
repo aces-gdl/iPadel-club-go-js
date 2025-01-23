@@ -16,4 +16,5 @@ type Club struct {
 	Website     string `json:"website"`
 	Description string `json:"description"`
 	TotalCourts int    `json:"total_courts"`
+	ImageURL    string `json:"image_url"`
 }

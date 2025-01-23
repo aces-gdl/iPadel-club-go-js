@@ -1,19 +1,20 @@
 import React from 'react';
-import Carousel from 'react-material-ui-carousel';
 import { Paper, Button, Typography, Box } from '@mui/material';
-
+import Carousel from 'react-material-ui-carousel'
 const EventCarousel = ({ events, selectedEventId, onEventSelect }) => {
   return (
     <Carousel>
       {events.map((event) => (
         <Paper
-          key={event.id}
+          key={event.ID}
           elevation={3}
           sx={{
             height: 300,
+            width:300,
             position: 'relative',
-            backgroundImage: `url(${event.imageUrl})`,
-            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            backgroundImage: `url('/v1/images/${event?.image_url}')`,
+            backgroundSize: 'contain',
             backgroundPosition: 'center',
           }}
         >
@@ -32,11 +33,11 @@ const EventCarousel = ({ events, selectedEventId, onEventSelect }) => {
             <Typography variant="body2">{event.date}</Typography>
             <Button
               variant="contained"
-              color={selectedEventId === event.id ? "secondary" : "primary"}
-              onClick={() => onEventSelect(event.id)}
+              color={selectedEventId === event.ID ? "secondary" : "primary"}
+              onClick={() => onEventSelect(event.ID)}
               sx={{ mt: 1 }}
             >
-              {selectedEventId === event.id ? "Selected" : "Select Event"}
+              {selectedEventId === event.ID ? "Seleccionado" : "Seleccionar Evento"}
             </Button>
           </Box>
         </Paper>

@@ -6,11 +6,11 @@ import (
 	"ipadel-club/initializers"
 	"ipadel-club/models"
 	"net/http"
-	"os/exec"
 	"path/filepath"
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"github.com/olahol/go-imageupload"
 )
 
@@ -49,15 +49,9 @@ func UploadImage(c *gin.Context) {
 
 	fileType := filepath.Ext(img.Filename)
 
-	fileNameBytes, err := exec.Command("uuidgen").Output()
-	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{
-			"error": "Fallo al generar ID de imagen...",
-		})
-		return
-	}
+	newUUID := uuid.New()
 
-	fileName := fmt.Sprintf("%s-%s-%s%s", id, name, strings.TrimSpace(string(fileNameBytes)), fileType)
+	fileName := fmt.Sprintf("%s-%s-%s%s", id, name, strings.TrimSpace(newUUID.String()), fileType)
 
 	result1 := img.Save(UPLOAD_PATH + fileName)
 	if result1 != nil {

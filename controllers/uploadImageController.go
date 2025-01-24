@@ -9,10 +9,8 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 	"github.com/olahol/go-imageupload"
 )
 
@@ -58,9 +56,7 @@ func UploadImage(c *gin.Context) {
 
 	fileType := filepath.Ext(img.Filename)
 
-	newUUID := uuid.New()
-
-	fileName := fmt.Sprintf("%s-%s-%s%s", id, name, strings.TrimSpace(newUUID.String()), fileType)
+	fileName := fmt.Sprintf("%s-%s%s", id, name, fileType)
 
 	result1 := img.Save(UPLOAD_PATH + fileName)
 	if result1 != nil {

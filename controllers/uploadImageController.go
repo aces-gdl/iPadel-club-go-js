@@ -80,6 +80,7 @@ func UploadImage(c *gin.Context) {
 		}
 		event.ImageURL = fileName
 		results = initializers.DB.Save(&event)
+
 		if results.Error != nil {
 			c.JSON(http.StatusNotFound, gin.H{"error": "Error al Actualizar evento..."})
 			return

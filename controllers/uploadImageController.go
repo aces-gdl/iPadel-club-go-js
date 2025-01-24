@@ -143,3 +143,48 @@ func ListImages(c *gin.Context) {
 		"images": images,
 	})
 }
+
+func DeleteImage(c *gin.Context) {
+	fileName := c.Param("fileName")
+
+	if fileName == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Nombre de archivo no proporcionado",
+		})
+		return
+	}
+
+	filePath := filepath.Join(UPLOAD_PATH, fileName)
+
+	// Check if file exists
+	if _, err := os.Stat(filePath); os.IsNotExist(err) {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "Archivo no encontrado",
+		})
+		return
+	}
+
+	// Attempt to remove the file
+	err := os.Remove(filePath)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Error al eliminar el archivo: " + err.Error(),
+		})
+		return
+	}
+
+	// Check if there's a thumbnail and remove it if it exists
+	thumbPath := filepath.Join(UPLOAD_PATH, fileName[:len(fileName)-len(filepath.Ext(fileName))]+"-thumb.jpeg")
+	if _, err := os.Stat(thumbPath); err == nil {
+		os.Remove(thumbPath) // Ignore error as thumbnail might not always exist
+	}
+
+	// Update the database if necessary
+	// This is a placeholder - you'll need to implement the logic to update the database
+	// based on your specific requirements
+	// updateDatabase(fileName)
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Imagen eliminada con éxito",
+	})
+}

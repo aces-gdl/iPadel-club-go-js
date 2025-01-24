@@ -108,6 +108,7 @@ func NewRouter() *gin.Engine {
 		imagesRoutes.POST("/", middleware.RequireAuth, controllers.UploadImage)
 		imagesRoutes.GET("/:id", middleware.RequireAuth, controllers.GetImage)
 		imagesRoutes.GET("/list", middleware.RequireAuth, controllers.ListImages)
+		imagesRoutes.DELETE("/:fileName", middleware.RequireAuth, controllers.DeleteImage)
 	}
 
 	return router

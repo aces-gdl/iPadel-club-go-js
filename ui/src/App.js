@@ -2,6 +2,7 @@
 import React from 'react';
 import { Box } from '@mui/material';
 import Routes from './routes';
+import { ResponseInterceptor } from 'api/ResponseInterceptor';
 //import { ResponseInterceptor } from 'api/ResponseInterceptor';
 const App = () => {
 
@@ -15,6 +16,7 @@ const App = () => {
       minWidth={"100vw"}
 
     >
+      <ResponseInterceptor />  {/* Intercepta y maneja las respuestas de la API */}  
       <Routes />
     </Box>
 

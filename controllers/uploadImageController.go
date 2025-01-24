@@ -21,7 +21,6 @@ var currentImage *imageupload.Image
 const UPLOAD_PATH = "images/"
 
 func UploadImage(c *gin.Context) {
-	fmt.Println("Entro a UploadImage ")
 
 	img, err := imageupload.Process(c.Request, "file")
 
@@ -69,7 +68,6 @@ func UploadImage(c *gin.Context) {
 		return
 	}
 
-	fmt.Println("Antes de Grabar en BD")
 	switch name {
 	case "Event":
 		var event models.Event

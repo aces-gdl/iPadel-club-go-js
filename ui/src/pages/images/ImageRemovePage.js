@@ -11,7 +11,7 @@ import {
   Snackbar,
   Alert,
 } from '@mui/material';
-import MainCard from '../layout/MainCard';
+import MainCard from '../../layout/MainCard';
 
 const ImageRemovePage = () => {
   const [images, setImages] = useState([]);

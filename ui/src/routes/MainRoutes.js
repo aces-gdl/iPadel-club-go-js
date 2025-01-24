@@ -15,9 +15,8 @@ const Home = Loadable(lazy(() => import('../pages/Home')));
 const UpdatePasswordPage = Loadable(lazy(() => import('../pages/UpdatePasswordPage')));
 const AboutUsPage = Loadable(lazy(() => import('../pages/AboutUsPage')));
 const EventRegistration = Loadable(lazy(() => import('../pages/EventRegistration')));
-const ImageUploadPage = Loadable(lazy(() => import('../pages/ImageUploadPage')));
 const RankingPage = Loadable(lazy(() => import('../pages/Ranking')));
-const ImageRemovePage = Loadable(lazy(() => import('../pages/ImageRemovePage')));
+const Images = Loadable(lazy(() => import('../pages/images')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -59,19 +58,12 @@ const MainRoutes = {
                 <PrivateRoute>
                     <RankingPage />
                 </PrivateRoute>
-        },
+        },    
         {
-            path: '/upload-image',  
+            path: '/images',  
             element:
                 <PrivateRoute>
-                    <ImageUploadPage />
-                </PrivateRoute>
-        },        
-        {
-            path: '/remove-image',  
-            element:
-                <PrivateRoute>
-                    <ImageRemovePage />
+                    <Images/>
                 </PrivateRoute>
         }
     ]

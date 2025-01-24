@@ -12,7 +12,7 @@ import {
   Alert,
   Input,
 } from '@mui/material';
-import MainCard from '../layout/MainCard';
+import MainCard from '../../layout/MainCard';
 import axios from 'axios';
 
 const validationSchema = Yup.object({

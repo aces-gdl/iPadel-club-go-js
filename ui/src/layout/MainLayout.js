@@ -40,7 +40,7 @@ const MainLayout = () => {
     { label: 'Eventos', action: () => navigate('/inscriptions') },
     { label: 'Nosotros', action: () => navigate('/aboutus') },
     { label: 'Mi Cuenta', action: () => navigate('/update-password') },
-    { label: 'Imagenes', action: () => navigate('/upload-image') },
+    { label: 'Imagenes', action: () => navigate('/images') },
     { label: 'Cerrar Sesión', action: handleLogout },
 
   ];
@@ -100,9 +100,13 @@ const MainLayout = () => {
       </AppBar>
       <Box
         sx={{
+          paddingTop: '12rem', 
+          paddingLeft: '2rem',
+          paddingRight: '2rem',
+         
           flexGrow: 1,
-          backgroundImage: `url(${process.env.PUBLIC_URL}/images/padel-background.avif)`,
-          backgroundSize: 'cover',
+        /*   backgroundImage: `url(${process.env.PUBLIC_URL}/images/padel-background.avif)`,
+         */  backgroundSize: 'cover',
           backgroundPosition: 'center',
           display: 'flex',
           alignItems: 'center',

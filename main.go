@@ -9,13 +9,13 @@ import (
 )
 
 func init() {
-	os.Setenv("TZ", "UTC")
+	/* os.Setenv("TZ", "UTC")
 
 	loc, err := time.LoadLocation("UTC")
 	if err != nil {
 		fmt.Println(" Error cargando timezone")
 	}
-	time.Local = loc
+	time.Local = loc */
 	// output current time zone
 	fmt.Print("Local time zone ")
 	fmt.Println(time.Now().Zone())

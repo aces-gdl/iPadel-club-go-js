@@ -15,11 +15,7 @@ func ConnectTODBiPadelClub() {
 	var err error
 	dsn := os.Getenv("DSN")
 	ti, _ = time.LoadLocation("America/Mexico_City")
-	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
-		NowFunc: func() time.Time {
-			return time.Now().In(ti)
-		},
-	})
+	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
 		panic("Fallo en conexion a base de datos...")

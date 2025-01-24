@@ -69,6 +69,7 @@ func UploadImage(c *gin.Context) {
 		return
 	}
 
+	fmt.Println("Antes de Grabar en BD")
 	switch name {
 	case "Event":
 		var event models.Event
@@ -78,7 +79,11 @@ func UploadImage(c *gin.Context) {
 			return
 		}
 		event.ImageURL = fileName
-		initializers.DB.Save(&event)
+		results = initializers.DB.Save(&event)
+		if results.Error != nil {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Error al Actualizar evento..."})
+			return
+		}
 	case "Club":
 		var club models.Club
 		results := initializers.DB.Debug().First(&club, id)

@@ -12,9 +12,9 @@ import (
 // CreateInscription crea una nueva inscripción
 func CreateInscription(c *gin.Context) {
 	type bodyT struct {
-		EventID    uint `"json:event_id"`
-		CategoryID uint `"json:category_id"`
-		PersonID   uint `"json:person1_id"`
+		EventID    uint
+		CategoryID uint
+		PersonID   uint
 	}
 	var body bodyT
 

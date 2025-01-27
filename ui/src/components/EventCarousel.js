@@ -1,46 +1,58 @@
 import React from 'react';
 import { Paper, Button, Typography, Box } from '@mui/material';
 import Carousel from 'react-material-ui-carousel'
+import dayjs from 'dayjs';
 const EventCarousel = ({ events, selectedEventId, onEventSelect }) => {
+  let myDate = dayjs(events[0]?.start_date).format('dddd, MMMM D, YYYY');;
   return (
-    <Carousel>
+    <Carousel
+      autoPlay={false}
+      navButtonsAlwaysVisible={true}
+      height={600}
+      
+    >
       {events.map((event) => (
-        <Paper
-          key={event.ID}
-          elevation={3}
-          sx={{
-            height: 300,
-            width:300,
-            position: 'relative',
-            backgroundRepeat: 'no-repeat',
-            backgroundImage: `url('/v1/images/${event?.image_url}')`,
-            backgroundSize: 'contain',
-            backgroundPosition: 'center',
-          }}
-        >
+        <Box paddingTop={1}>
           <Box
+            key={event.ID}
+            elevation={3}
             sx={{
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              bgcolor: 'rgba(0, 0, 0, 0.5)',
-              color: 'white',
-              padding: 2,
+              minHeight: 430,
+              minWidth: '100%',
+              backgroundRepeat: 'no-repeat',
+              backgroundImage: `url('/v1/images/${event?.image_url}')`,
+              backgroundSize: 'contain',
+              backgroundPosition: 'center',
             }}
           >
-            <Typography variant="h6">{event.name}</Typography>
-            <Typography variant="body2">{event.date}</Typography>
+
+          </Box>
+          <Box
+            paddingTop={5}
+            marginX={2}
+          >
+            <Typography variant="h6" fontWeight={800}>{event.name}</Typography>
+            <Box display={'flex'} flexDirection={'row'}>
+              <Typography variant='body2' fontWeight={800} component={'p'}>Club: </Typography>
+              <Typography variant="body2" > {event.club.name}</Typography>
+            </Box>       
+            <Box display={'flex'} flexDirection={'row'}>
+            <Typography variant='body2' fontWeight={800} component={'p'}>Del: </Typography>
+              <Typography variant="body2" > {dayjs(event.start_date).format("DD/MM")}</Typography>
+              <Typography variant='body2' fontWeight={800} component={'p'}> al: </Typography>
+              <Typography variant="body2" > {dayjs(event.end_date).format("DD/MM")}</Typography>
+            </Box>
             <Button
+              fullWidth
               variant="contained"
-              color={selectedEventId === event.ID ? "secondary" : "primary"}
+              color={"primary"}
               onClick={() => onEventSelect(event.ID)}
               sx={{ mt: 1 }}
             >
-              {selectedEventId === event.ID ? "Seleccionado" : "Seleccionar Evento"}
+              Inscribirme
             </Button>
           </Box>
-        </Paper>
+        </Box>
       ))}
     </Carousel>
   );

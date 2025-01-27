@@ -36,11 +36,9 @@ const MainLayout = () => {
 
   const menuItems = [
     { label: 'Inicio', action: () => navigate('/') },
-    { label: 'Ranking', action: () => navigate('/ranking') },
     { label: 'Eventos', action: () => navigate('/inscriptions') },
     { label: 'Nosotros', action: () => navigate('/aboutus') },
-    { label: 'Mi Cuenta', action: () => navigate('/update-password') },
-    { label: 'Imagenes', action: () => navigate('/images') },
+    { label: 'Mi Cuenta', action: () => navigate('/account') },
     { label: 'Cerrar Sesión', action: handleLogout },
 
   ];
@@ -52,7 +50,6 @@ const MainLayout = () => {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-
             iPadel Club, Hola : {JSON.parse(localStorage.getItem('user'))?.name} 
           </Typography>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
@@ -100,18 +97,13 @@ const MainLayout = () => {
       </AppBar>
       <Box
         sx={{
-          paddingTop: '12rem', 
-          paddingLeft: '2rem',
-          paddingRight: '2rem',
-         
-          flexGrow: 1,
-        /*   backgroundImage: `url(${process.env.PUBLIC_URL}/images/padel-background.avif)`,
-         */  backgroundSize: 'cover',
-          backgroundPosition: 'center',
           display: 'flex',
-          alignItems: 'center',
+          paddingY: '2rem', 
+          paddingX: '2rem',
+          flexGrow: 1,
+          alignItems: 'start',
           justifyContent: 'center',
-          overflow: 'auto',
+          background: mode === 'light' ? 'linear-gradient(0deg, rgb(255, 255, 255)25%, rgb(24, 118, 209) 100%)': 'linear-gradient(180deg, rgb(49, 49, 49)25%, rgb(255, 255, 255) 100%)',         
         }}
       >
         <Outlet />

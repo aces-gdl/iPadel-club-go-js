@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkipadelclub=self.webpackChunkipadelclub||[]).push([[759],{4140:(e,l,u)=>{u.r(l),u.d(l,{default:()=>c});u(5043);var a=u(579);const c=()=>(0,a.jsx)("div",{children:"Mi Cuenta"})}}]);
+//# sourceMappingURL=759.16bd6d44.chunk.js.map

@@ -3,6 +3,7 @@ import MainCard from '../layout/MainCard'
 import ClubSelect from '../components/ClubSelect';
 import EventSelect from '../components/EventSelect';
 import CategorySelect from '../components/CategorySelect';
+import { Container } from '@mui/material';
 
 const Home = () => {
   const [values, setValues] = useState({
@@ -16,26 +17,10 @@ const Home = () => {
   };
 
   return (
-    <MainCard title="Bienvenido a iPadel Club" minHeigth={'300px'}>
-      cambios
-      <ClubSelect 
-        name='ClubID'
-        value={values.ClubID}
-        label="Clubs"
-        handleupdate={handleUpdate}
-      />
-      <EventSelect 
-        name='EventID'
-        value={values.EventID}
-        label="Eventos"
-        handleupdate={handleUpdate}
-      />
-      <CategorySelect 
-        name='CategoryID'
-        value={values.CategoryID}
-        label="Categorías"
-        handleupdate={handleUpdate}
-      />
+    <MainCard title="Bienvenido a iPadel Club" >
+      <Container fixed>
+        aqui
+      </Container>    
     </MainCard>
   )
 }

@@ -17,6 +17,7 @@ const AboutUsPage = Loadable(lazy(() => import('../pages/AboutUsPage')));
 const EventRegistration = Loadable(lazy(() => import('../pages/EventRegistration')));
 const RankingPage = Loadable(lazy(() => import('../pages/Ranking')));
 const Images = Loadable(lazy(() => import('../pages/images')));
+const AccountsPage = Loadable(lazy(() => import('../pages/Account')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -65,7 +66,22 @@ const MainRoutes = {
                 <PrivateRoute>
                     <Images/>
                 </PrivateRoute>
-        }
+        },        
+        {
+            path: '/account',  
+            element:
+                <PrivateRoute>
+                    <AccountsPage/>
+                </PrivateRoute>
+        },
+        {
+            path: '*',
+            element:
+                <PrivateRoute>
+                    <Home />
+                </PrivateRoute>
+        },
     ]
+
 };
 export default MainRoutes;

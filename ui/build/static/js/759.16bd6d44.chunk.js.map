@@ -1,0 +1,1 @@
+{"version":3,"file":"static/js/759.16bd6d44.chunk.js","mappings":"0JAEA,MAMA,EANcA,KAEVC,EAAAA,EAAAA,KAAA,OAAAC,SAAK,a","sources":["pages/Account/index.js"],"sourcesContent":["import React from 'react'\n\nconst index = () => {\n  return (\n    <div>Mi Cuenta</div>\n  )\n}\n\nexport default index"],"names":["index","_jsx","children"],"sourceRoot":""}
